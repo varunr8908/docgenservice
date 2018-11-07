@@ -9,6 +9,7 @@ Project on Python 3.7.1
 pip install flask
 pip install lxml
 pip install docx-mailmerge
+pip install flask
 pip install flask_compress
 
 ```
