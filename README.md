@@ -22,6 +22,8 @@ To Start server - python run.py
 <b>Sample JSON input for template</b>
 ```
 {
+	"DocFormat" : "docx",
+	"TemplateName" : "SG_Proposal_Full",
 	"GroupName" : "Test Employer Group",
 	"EffectiveDate" :"11/01/2018",
 	"DateCreated" :"11/07/2018",
