@@ -91,5 +91,5 @@ ENV/
 .ropeproject
 
 # temporary files
-*.docx
-*.pdf
+./pyflaskrest/temp/*.docx
+./pyflaskrest/temp/*.pdf
