@@ -6,7 +6,7 @@ from mailmerge import MailMerge
 from pyflaskrest.config import config
 import os.path
 import platform
-if platform.system() == 'windows':
+if platform.system() == 'Windows':
     import comtypes
     import comtypes.client
 import uuid
@@ -50,12 +50,15 @@ def generatepdf():
     proposal_template_document.write(word_doc_path)
     if(doc_format == 'pdf'):
         #Convert to PDF
-        if(platform_name == 'windows'):
+        if(platform_name == 'Windows'):
+            print('Using Com')
             wdFormatPDF = 17
             comtypes.CoInitialize()
             word = comtypes.client.CreateObject('Word.Application')
             doc = word.Documents.Open(word_doc_path)
             doc.SaveAs(os.path.abspath(pdf_doc_path), FileFormat=wdFormatPDF)
+            doc.Close()
+            word.Quit()
         else:
             jar_file_path = os.path.abspath(os.path.join(root_directory, "../bin/docs-to-pdf-converter-1.8.jar"))
             exec_args = " -i " + os.path.abspath(word_doc_path)
