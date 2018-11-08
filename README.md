@@ -14,7 +14,7 @@ pip install flask_compress
 
 ```
 <p>
-jre > 7 to run pdf conversion
+jre > 7 to run pdf conversion on non windows platforms
 </p>
 <br/>
 To Start server - python run.py
