@@ -6,9 +6,6 @@ from mailmerge import MailMerge
 from pyflaskrest.config import config
 import os.path
 import platform
-if platform.system() == 'Windows':
-    import comtypes
-    import comtypes.client
 import uuid
 import base64
 
@@ -29,7 +26,6 @@ def generatepdf():
     cover_template_encoded = str(request.json.get("CoverTemplate"))
     footer_template_encoded = str(request.json.get("FooterTemplate"))
     
-    platform_name = platform.system()
     #Generate a GUID For the Transaction
     docuuid = uuid.uuid4()
 
@@ -109,21 +105,9 @@ def generatepdf():
 
     if(doc_format == 'pdf'):
         #Convert to PDF
-        if(platform_name == 'Windows'):
-            print('Using Com')
-            wdFormatPDF = 17
-            comtypes.CoInitialize()
-            word = comtypes.client.CreateObject('Word.Application')
-            
-            doc = word.Documents.Open(merged_doc_path)
-            #word.Documents.Merge()
-            doc.SaveAs(os.path.abspath(merged_pdf_path), FileFormat=wdFormatPDF)
-            doc.Close()
-            word.Quit()
-        else:
-            jar_file_path = os.path.abspath(os.path.join(root_directory, "../bin/docs-to-pdf-converter-1.8.jar"))
-            exec_args = " -i " + os.path.abspath(merged_doc_path)
-            os.system("java -jar " + jar_file_path + exec_args)  
+        jar_file_path = os.path.abspath(os.path.join(root_directory, "../bin/docs-to-pdf-converter-1.8.jar"))
+        exec_args = " -i " + os.path.abspath(merged_doc_path)
+        os.system("java -jar " + jar_file_path + exec_args)  
         
         with open(merged_pdf_path, "rb") as pdf_file:
             merged_doc_encoded = base64.b64encode(pdf_file.read())
@@ -156,7 +140,6 @@ def combine_word_documents(input_files):
     :return: a Document object with the merged files
     """
     for filnr, file in enumerate(input_files):
-        # in my case the docx templates are in a FileField of Django, add the MEDIA_ROOT, discard the next 2 lines if not appropriate for you. 
         if filnr == 0:
             merged_document = Document(file)
             
